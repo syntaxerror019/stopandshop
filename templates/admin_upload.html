@@ -2,7 +2,11 @@
 {% block title %}Schedule Upload · Employee Schedule{% endblock %}
 {% block content %}
 <section class="page-heading">
-  <div><p class="eyebrow">ADMINISTRATION</p><h1>Schedule Upload</h1><p>Publish the latest store schedule PDF.</p></div>
+  <div>
+    <p class="eyebrow">ADMINISTRATION</p>
+    <h1>Schedule Upload</h1>
+    <p>Publish the latest store schedule PDF.</p>
+  </div>
 </section>
 
 <section class="schedule-card admin-card">
@@ -18,6 +22,5 @@
     <input type="file" name="pdf" accept="application/pdf" required>
     <button type="submit">Publish Schedule <i class="fa-solid fa-arrow-right"></i></button>
   </form>
-  <p class="admin-warning">Starter page only — add real admin authentication before deploying.</p>
 </section>
 {% endblock %}
