@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Employee Login{% endblock %}
+{% block auth_content %}
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="brand-mark large"><i></i><i></i></div>
+      <div class="brand-name">STOP<span>&</span>SHOP</div>
+    </div>
+    <div class="login-copy">
+      <h1>Employee Schedule</h1>
+      <p>Sign in to view the latest store schedule.</p>
+    </div>
+
+    {% if error %}
+      <div class="alert error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" class="login-form">
+      <label for="employee_id">Employee ID</label>
+      <input id="employee_id" name="employee_id" inputmode="text" autocomplete="username"
+             placeholder="Enter your employee ID" required autofocus>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password"
+             placeholder="Enter your password" required>
+      <button type="submit">Sign In <span><i class="fa-solid fa-arrow-right"></i></span></button>
+    </form>
+
+    <div class="login-help">
+      <span class="help-icon"><i class="fa-solid fa-circle-question"></i></span>
+      <div>
+        <strong>Need help signing in?</strong>
+        <p>Contact your store manager if you need assistance with your employee ID or password.</p>
+      </div>
+    </div>
+  </div>
+  <div class="login-footer">Employee Schedule Portal</div>
+</div>
+{% endblock %}

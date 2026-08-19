@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} · Employee Schedule{% endblock %}
+{% block body_class %}fullview-page{% endblock %}
+{% block content %}
+<div class="pdf-fullview">
+  <div class="fullview-bar">
+    <a class="back-button" href="{{ url_for('schedule') }}"><i class="fa-solid fa-arrow-left"></i> Back to Schedule</a>
+    <span class="fullview-title">{{ title }}</span>
+  </div>
+  <div class="fullview-frame-wrap">
+    <iframe class="fullview-frame" src="{{ url_for('schedule_pdf', which=which) }}#toolbar=1&navpanes=0&view=FitH" title="{{ title }}"></iframe>
+  </div>
+</div>
+{% endblock %}

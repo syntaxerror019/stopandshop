@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Employee Schedule{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">EMPLOYEE PORTAL</p>
+    <h1>Welcome back, {{ employee_name }}!</h1>
+    <p>Here is the latest schedule available for your store.</p>
+  </div>
+</section>
+
+<div class="notice">
+  <span class="notice-icon"><i class="fa-solid fa-check"></i></span>
+  <div><strong>Schedule information</strong><br><span>The PDF below is the most recently published schedule.</span></div>
+</div>
+
+<section class="schedule-card">
+  <div class="card-heading">
+    <div>
+      <div class="heading-icon"><i class="fa-solid fa-calendar-days"></i></div>
+      <div>
+        <h2>Current Schedule</h2>
+        <p>Latest published schedule</p>
+      </div>
+    </div>
+  </div>
+
+  {% if schedule_exists %}
+    <div class="pdf-preview-wrap">
+      <iframe class="pdf-preview-frame" src="{{ url_for('schedule_pdf', which='current') }}#toolbar=0&navpanes=0&view=FitH" title="Current schedule preview"></iframe>
+      <div class="pdf-preview-overlay"></div>
+    </div>
+    <div class="pdf-view-actions">
+      <a class="view-full-button" href="{{ url_for('schedule_view', which='current') }}">
+        <i class="fa-solid fa-expand"></i> View Full Schedule
+      </a>
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <div class="empty-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
+      <h3>Schedule not available yet</h3>
+      <p>Your store's latest schedule has not been uploaded. Please check back later.</p>
+    </div>
+  {% endif %}
+</section>
+
+{% if next_schedule_exists %}
+<section class="schedule-card compact-card">
+  <div class="card-heading">
+    <div>
+      <div class="heading-icon"><i class="fa-solid fa-calendar-days"></i></div>
+      <div><h2>Next Week</h2><p>Upcoming published schedule</p></div>
+    </div>
+  </div>
+  <div class="next-week-link">
+    <span>Next week's schedule is available.</span>
+    <a href="{{ url_for('schedule') }}">View schedules <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</section>
+{% endif %}
+
+<div class="bottom-grid">
+  <section class="info-card">
+    <div class="mini-icon"><i class="fa-solid fa-circle-info"></i></div>
+    <div><h3>Schedule Updates</h3><p>Schedules are updated when a new store schedule is published.</p></div>
+  </section>
+  <section class="info-card">
+    <div class="mini-icon"><i class="fa-solid fa-circle-question"></i></div>
+    <div><h3>Need assistance?</h3><p>Contact your store manager with questions about your schedule.</p></div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Schedule Upload · Employee Schedule{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <div><p class="eyebrow">ADMINISTRATION</p><h1>Schedule Upload</h1><p>Publish the latest store schedule PDF.</p></div>
+</section>
+
+<section class="schedule-card admin-card">
+  {% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+  {% if success %}<div class="alert success">{{ success }}</div>{% endif %}
+  <form method="post" enctype="multipart/form-data" class="upload-form">
+    <label>Schedule period</label>
+    <select name="schedule_type" required>
+      <option value="current">Current Schedule</option>
+      <option value="next">Next Week</option>
+    </select>
+    <label>PDF schedule</label>
+    <input type="file" name="pdf" accept="application/pdf" required>
+    <button type="submit">Publish Schedule <i class="fa-solid fa-arrow-right"></i></button>
+  </form>
+  <p class="admin-warning">Starter page only — add real admin authentication before deploying.</p>
+</section>
+{% endblock %}

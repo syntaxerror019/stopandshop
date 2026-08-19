@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Employee Schedule{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  {% if session.get('employee_id') and request.endpoint != 'change_password' %}
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('dashboard') }}">
+      <div class="brand-mark" aria-hidden="true"><i></i><i></i></div>
+      <span class="brand-name">STOP<span>&</span>SHOP</span>
+      <span class="brand-divider"></span>
+      <span class="brand-section">Employee Schedule</span>
+    </a>
+    <div class="top-user">
+      <button class="user-dropdown-toggle" id="userDropdownToggle">
+        <span>Hi, {{ current_user.name if current_user else 'Employee' }}</span>
+        <span class="avatar">{{ (current_user.name if current_user else 'E')[0]|upper }}</span>
+        <span class="chevron"><i class="fa-solid fa-chevron-down"></i></span>
+      </button>
+      <div class="user-dropdown" id="userDropdown">
+        <div class="user-dropdown-header">
+          <span class="avatar">{{ (current_user.name if current_user else 'E')[0]|upper }}</span>
+          <div class="user-dropdown-info">
+            <strong>{{ current_user.name if current_user else 'Employee' }}</strong>
+            <span>ID: {{ current_user.employee_id if current_user else '' }}</span>
+          </div>
+        </div>
+        <div class="user-dropdown-role">
+          Role: <b>{{ current_user.job_title if current_user else 'Employee' }}</b>
+          {% if current_user and current_user.role == 'admin' %} &middot; <b>Administrator</b>{% endif %}
+        </div>
+        <a href="{{ url_for('account') }}"><i class="fa-solid fa-circle-user"></i> My Account</a>
+        <a href="{{ url_for('logout') }}" class="signout"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>
+      </div>
+    </div>
+    <button class="menu-button" id="menuButton" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+  </header>
+
+  <div class="mobile-backdrop" id="mobileBackdrop"></div>
+  <div class="shell">
+    <aside class="sidebar" id="sidebar">
+      <nav>
+        <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
+          <span class="nav-icon"><i class="fa-solid fa-house"></i></span> Dashboard
+        </a>
+        <a href="{{ url_for('schedule') }}" class="{% if request.endpoint == 'schedule' %}active{% endif %}">
+          <span class="nav-icon"><i class="fa-solid fa-calendar-days"></i></span> Schedule
+        </a>
+        <a href="{{ url_for('account') }}" class="{% if request.endpoint == 'account' %}active{% endif %}">
+          <span class="nav-icon"><i class="fa-solid fa-circle-user"></i></span> Account
+        </a>
+        {% if current_user and current_user["role"] == "admin" %}
+        <a href="{{ url_for('admin_dashboard') }}" class="{% if request.endpoint and request.endpoint.startswith('admin') %}active{% endif %}">
+          <span class="nav-icon"><i class="fa-solid fa-gear"></i></span> Administration
+        </a>
+        {% endif %}
+      </nav>
+      <a class="logout" href="{{ url_for('logout') }}"><span><i class="fa-solid fa-right-from-bracket"></i></span> Log Out</a>
+    </aside>
+
+    <main class="main">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  {% else %}
+    {% block auth_content %}{% endblock %}
+  {% endif %}
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

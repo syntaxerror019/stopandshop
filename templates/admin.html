@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Administration · Employee Schedule{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <div><p class="eyebrow">ADMINISTRATION</p><h1>Portal Administration</h1><p>Manage schedules and employee access.</p></div>
+</section>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% for category, message in messages %}<div class="alert {{ 'success' if category == 'success' else 'error' }}">{{ message }}</div>{% endfor %}
+{% endwith %}
+
+<div class="stat-grid">
+  <div class="stat-card"><span class="stat-icon"><i class="fa-solid fa-users"></i></span><div><strong>{{ total_users }}</strong><span>Employees</span></div></div>
+  <div class="stat-card"><span class="stat-icon"><i class="fa-solid fa-circle-check"></i></span><div><strong>{{ active_users }}</strong><span>Active accounts</span></div></div>
+  <div class="stat-card"><span class="stat-icon"><i class="fa-solid fa-calendar-days"></i></span><div><strong>{{ 'Published' if schedule_exists else 'Not set' }}</strong><span>Current schedule</span></div></div>
+</div>
+
+<div class="admin-grid">
+  <a class="admin-action" href="{{ url_for('admin_upload') }}"><span><i class="fa-solid fa-cloud-arrow-up"></i></span><div><strong>Schedule Uploads</strong><small>Publish current or next-week PDFs</small></div><b><i class="fa-solid fa-arrow-right"></i></b></a>
+  <a class="admin-action" href="{{ url_for('admin_users') }}"><span><i class="fa-solid fa-users-gear"></i></span><div><strong>User Management</strong><small>Add, edit, disable and reset users</small></div><b><i class="fa-solid fa-arrow-right"></i></b></a>
+</div>
+{% endblock %}

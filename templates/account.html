@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}My Account · Employee Schedule{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">ACCOUNT</p>
+    <h1>My Account</h1>
+    <p>Your account details and support information.</p>
+  </div>
+</section>
+
+<div class="account-grid">
+  <section class="account-card">
+    <div class="account-card-header">
+      <div class="heading-icon"><i class="fa-solid fa-user"></i></div>
+      <div>
+        <h2>Account Details</h2>
+        <p>Your profile information</p>
+      </div>
+    </div>
+    <div class="account-fields">
+      <div class="account-field">
+        <span class="field-label">Name</span>
+        <span class="field-value">{{ current_user.name }}</span>
+      </div>
+      <div class="account-field">
+        <span class="field-label">Employee ID</span>
+        <span class="field-value">{{ current_user.employee_id }}</span>
+      </div>
+      <div class="account-field">
+        <span class="field-label">Job Title</span>
+        <span class="field-value">{{ current_user.job_title }}</span>
+      </div>
+      <div class="account-field">
+        <span class="field-label">Role</span>
+        <span class="field-value">
+          {% if current_user.role == 'admin' %}
+            <span class="role-pill admin">Administrator</span>
+          {% else %}
+            <span class="role-pill employee">Employee</span>
+          {% endif %}
+        </span>
+      </div>
+      <div class="account-field">
+        <span class="field-label">Account Status</span>
+        <span class="field-value">
+          {% if current_user.active %}
+            <span class="status on">Active</span>
+          {% else %}
+            <span class="status off">Inactive</span>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <section class="account-card">
+    <div class="account-card-header">
+      <div class="heading-icon"><i class="fa-solid fa-lock"></i></div>
+      <div>
+        <h2>Password & Security</h2>
+        <p>Manage your login credentials</p>
+      </div>
+    </div>
+    <div class="account-info-box">
+      <p>To change or reset your password, please speak with your <strong>store manager</strong>. Password changes cannot be made through this portal.</p>
+    </div>
+  </section>
+
+  <section class="account-card full-width">
+    <div class="account-card-header">
+      <div class="heading-icon"><i class="fa-solid fa-phone"></i></div>
+      <div>
+        <h2>Contact & Support</h2>
+        <p>Get help with your account or schedule</p>
+      </div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fa-solid fa-user-tie"></i></div>
+        <div>
+          <strong>Store Manager</strong>
+          <p>For password resets, account changes, and general inquiries, contact your store manager directly.</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fa-solid fa-clipboard-question"></i></div>
+        <div>
+          <strong>Schedule Questions</strong>
+          <p>If you have questions about your schedule or need shift changes, reach out to your store manager.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

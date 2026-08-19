@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit User' if editing else 'Add User' }} · Employee Schedule{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <p class="eyebrow">ADMINISTRATION</p>
+  <h1>{{ 'Edit User' if editing else 'Add User' }}</h1>
+  <p>{{ 'Update this portal account.' if editing else 'Create a new employee portal account.' }}</p>
+</section>
+
+<section class="schedule-card form-card">
+  {% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+  <form method="post" class="admin-form">
+    <div class="form-row">
+      <div><label>Employee ID</label><input name="employee_id" value="{{ editing['employee_id'] if editing else '' }}" required></div>
+      <div><label>Full name</label><input name="name" value="{{ editing['name'] if editing else '' }}" required></div>
+    </div>
+    <div class="form-row">
+      <div><label>Job title</label><input name="job_title" value="{{ editing['job_title'] if editing else 'Employee' }}"></div>
+      <div><label>Role</label>
+        <select name="role">
+          <option value="employee" {% if editing and editing['role'] == 'employee' %}selected{% endif %}>Employee</option>
+          <option value="admin" {% if editing and editing['role'] == 'admin' %}selected{% endif %}>Administrator</option>
+        </select>
+      </div>
+    </div>
+    {% if editing %}
+    <label class="check-row"><input type="checkbox" name="active" value="1" {% if editing['active'] %}checked{% endif %}> Account is active</label>
+    {% endif %}
+    <div class="form-actions"><a class="outline-button" href="{{ url_for('admin_users') }}">Cancel</a><button class="primary-button" type="submit">{{ 'Save Changes' if editing else 'Create User' }}</button></div>
+  </form>
+  {% if not editing %}<p class="form-note">New users receive the temporary password <code>password</code> and will be required to change it at first login.</p>{% endif %}
+</section>
+{% endblock %}

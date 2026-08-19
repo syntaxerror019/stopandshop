@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}User Management · Employee Schedule{% endblock %}
+{% block content %}
+<section class="page-heading page-heading-row">
+  <div><p class="eyebrow">ADMINISTRATION</p><h1>User Management</h1><p>Manage employee access to the schedule portal.</p></div>
+  <a class="primary-button" href="{{ url_for('admin_user_new') }}">+ Add User</a>
+</section>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% for category, message in messages %}<div class="alert {{ 'success' if category == 'success' else 'error' }}">{{ message }}</div>{% endfor %}
+{% endwith %}
+
+<section class="table-card">
+  <div class="table-head"><strong>Portal Users</strong><span>{{ users|length }} total</span></div>
+  <div class="user-table-wrap">
+    <table class="user-table">
+      <thead><tr><th>Employee</th><th>Role</th><th>Status</th><th>Password</th><th></th></tr></thead>
+      <tbody>
+      {% for user in users %}
+        <tr>
+          <td><strong>{{ user["name"] }}</strong><small>{{ user["employee_id"] }} · {{ user["job_title"] }}</small></td>
+          <td><span class="role-pill {{ user['role'] }}">{{ 'Administrator' if user['role'] == 'admin' else 'Employee' }}</span></td>
+          <td><span class="status {{ 'on' if user['active'] else 'off' }}">{{ 'Active' if user['active'] else 'Disabled' }}</span></td>
+          <td>{% if user["must_change_password"] %}<span class="temporary">Temporary</span>{% else %}<span class="set">Set</span>{% endif %}</td>
+          <td class="actions">
+            <a href="{{ url_for('admin_user_edit', user_id=user['id']) }}">Edit</a>
+            <form method="post" action="{{ url_for('admin_reset_password', user_id=user['id']) }}" onsubmit="return confirm('Reset this password to the temporary password?');"><button>Reset</button></form>
+            {% if user["employee_id"] != session.get("employee_id") %}
+            <form method="post" action="{{ url_for('admin_toggle_user', user_id=user['id']) }}"><button>{{ 'Enable' if not user['active'] else 'Disable' }}</button></form>
+            <form method="post" action="{{ url_for('admin_delete_user', user_id=user['id']) }}" onsubmit="return confirm('Permanently delete this user? This cannot be undone.');"><button class="delete-action">Delete</button></form>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
